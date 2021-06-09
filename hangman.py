@@ -160,11 +160,13 @@ while True:
 
     art(title, hangman1, hangman2, hangman3, hangman4)
     if count == 5:
+        print("")
         print("The word was " + word)
         print("Game Over")
         count = 0
         break
     
+    print("")
     print(new_hash)
     user_input = input("Guess the letter or word: ")
     if len(user_input) == 1:
