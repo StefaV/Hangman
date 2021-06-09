@@ -9,17 +9,119 @@ title = """
               |_| |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|_| |_|
                                  |___/ """
 
+hangman1 = """   
+   █████████████████████
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+██████████"""
 
-word_list = ["accident", "banana", "murder", "aeroplane"]
+hangman2 = """  
+   █████████████████████
+   ██                █
+   ██	             █
+   ██              █████
+   ██             ███████
+   ██             ███████
+   ██              █████
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+██████████"""
+
+hangman3 = """   
+   █████████████████████
+   ██                █
+   ██                █
+   ██              █████
+   ██             ███████
+   ██             ███████
+   ██              █████
+   ██                █
+   ██                █
+   ██                █
+   ██                █
+   ██                █
+   ██                █
+   ██                █
+   ██
+   ██
+   ██
+   ██
+   ██
+   ██
+██████████"""
+
+hangman4 = """   
+   █████████████████████
+   ██                █
+   ██                █
+   ██              █████
+   ██             ███████
+   ██             ███████
+   ██              █████
+   ██                █
+   ██               ███
+   ██              █ █ █
+   ██              █ █ █
+   ██                █
+   ██                █
+   ██                █
+   ██                █
+   ██               █ █
+   ██               █ █
+   ██               █ █
+   ██
+   ██
+██████████"""
+
+
+word_list = ["accident", "banana", "murder", "aeroplane", "competition", "exibition", "throwback", "manipulation", "huricane", "asteroid"]
 word  = random.choice(word_list)
 hash = []
 new_hash = "-" * len(word)
+count = 0
 
 for i in range(len(word)):
     hash.append("-")
 
-def print_title(title):
+def art(title, hangman1, hangman2, hangman3, hangman4):
     print(title)
+    if count == 0 or count == 1:
+        print(hangman1)
+    elif count == 2 or count == 3:
+        print(hangman2)
+    elif count == 4:
+        print(hangman3)
+    else:
+        print(hangman4)
+
 
 #changes the dashes for letters
 def hidden_word_config(word, user_input):
@@ -43,19 +145,28 @@ def new_hash_make(word):
     for i in range(len(word)):
         new_hash.append("-")
 
-#Checks if the guessed word is correct
-def guess_the_word(user_input):
-    global word, new_hash
-    if user_input == word:
-        print("Good job!")
+def counter():
+
+    global count
+    if user_input not in word:
+        count += 1
+    elif len(user_input) > 1 and user_input != word:
+        count += 1
     else:
-        print("Wrong!")
+        pass
+
 
 while True:
 
-    print_title(title)
+    art(title, hangman1, hangman2, hangman3, hangman4)
+    if count == 5:
+        print("The word was " + word)
+        print("Game Over")
+        count = 0
+        break
+    
     print(new_hash)
-    user_input = input("Guess the letter: ")
+    user_input = input("Guess the letter or word: ")
     if len(user_input) == 1:
         hidden_word_config(word, user_input)
     elif len(user_input) > 1:
@@ -66,6 +177,8 @@ while True:
             print("Wrong!")
         input()
     else:
-        pass
-
+        print("Invalid input")
+    
+    counter()
+    
     os.system("clear")
