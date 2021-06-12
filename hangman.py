@@ -1,4 +1,4 @@
-import os, random
+import os, random, time, sys
 os.system("clear")
 
 title = """ 
@@ -101,15 +101,9 @@ hangman4 = """
    ██
 ██████████"""
 
-
 word_list = ["accident", "banana", "murder", "aeroplane", "competition", "exibition", "throwback", "manipulation", "huricane", "asteroid"]
-word  = random.choice(word_list)
-hash = []
-new_hash = "-" * len(word)
 count = 0
-
-for i in range(len(word)):
-    hash.append("-")
+score = 0
 
 def art(title, hangman1, hangman2, hangman3, hangman4):
     print(title)
@@ -122,8 +116,6 @@ def art(title, hangman1, hangman2, hangman3, hangman4):
     else:
         print(hangman4)
 
-
-#changes the dashes for letters
 def hidden_word_config(word, user_input):
 
     global hash, new_hash
@@ -140,14 +132,9 @@ def hidden_word_config(word, user_input):
 
     new_hash = "".join(hash)
 
-#Picks the word from the word list
-def new_hash_make(word):
-    for i in range(len(word)):
-        new_hash.append("-")
-
 def counter():
-
     global count
+
     if user_input not in word:
         count += 1
     elif len(user_input) > 1 and user_input != word:
@@ -155,32 +142,60 @@ def counter():
     else:
         pass
 
+#Manipulates the selected word
+def main():
+    global user_input, hash, word, new_hash, count, score
 
-while True:
+    word  = random.choice(word_list)
+    hash = []
+    new_hash = "-" * len(word)
 
-    art(title, hangman1, hangman2, hangman3, hangman4)
-    if count == 5:
+    for i in range(len(word)):
+        hash.append("-")
+
+    while True: 
+        art(title, hangman1, hangman2, hangman3, hangman4)
         print("")
-        print("The word was " + word)
-        print("Game Over")
-        count = 0
-        break
-    
-    print("")
-    print(new_hash)
-    user_input = input("Guess the letter or word: ")
-    if len(user_input) == 1:
-        hidden_word_config(word, user_input)
-    elif len(user_input) > 1:
-        if user_input == word:
-            print("Good job!")
+        print("Your score: " + str(score))
+
+        #Failstate
+        if count == 5:
+            print("")
+            print("The word was " + word)
+            print("Game Over")
+            time.sleep(2)
+            os.system("clear")
+            count = 0
+            score = 0
             break
+    
+        #Main word manipulation and game stage section
+        print("")
+        print(new_hash)
+        user_input = input("Guess the letter or word: ")
+        user_input = user_input.lower().strip()
+
+        if len(user_input) == 1:
+            hidden_word_config(word, user_input)
+        elif len(user_input) > 1:
+            if user_input == word:
+                print("Good job!")
+                time.sleep(2)
+                score += 1
+                del hash[:]
+                os.system("clear")
+                count = 0
+                break
+            else:
+                print("Wrong!")
+                time.sleep(2)
         else:
-            print("Wrong!")
-        input()
-    else:
-        print("Invalid input")
+            print("Invalid input")
+            time.sleep(2)
     
-    counter()
-    
-    os.system("clear")
+        counter()
+        os.system("clear")
+
+sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=36, cols=73))
+while True:   
+    main()
