@@ -1,6 +1,6 @@
 import os, random, time, sys
 os.system("clear")
-
+#hahah gadiiim
 title = """ 
                _   _                                         
               | | | | __ _ _ __   __ _ _ __ ___   __ _ _ __  
